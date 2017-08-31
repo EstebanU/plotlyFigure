@@ -1,0 +1,28 @@
+---
+title: "plotly Presentation"
+author: "E. Urdiales"
+date: "8/31/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Apple Stock Data
+```{r}
+suppressMessages(library(plotly))
+aapl <- read.csv("AAPL.csv", header = TRUE, colClasses = c("character", rep("numeric", 6)))
+aapl <- aapl[, c(1, 5)]
+aapl[, 1] <- as.Date(aapl[, 1])
+names(aapl) <- tolower(names(aapl))
+```
+
+```{r, cache = TRUE}
+p <- plot_ly(aapl, x = ~date, y = ~close, type = "scatter", mode = "lines+markers") %>%
+    layout(title = "Apple (AAPL) Closing Stock Price Over a One Year Period", 
+           yaxis = list(title = "USD ($)"), 
+           xaxis = list(title = "Date"))
+p
+```
+
